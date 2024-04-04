@@ -3,13 +3,22 @@ package com.example.demo1;
 public class Card {
 
     private String nom;
-    private String Rarete;
+    private Rarete rare;
     private String url;
 
-    public Card(String nom, String rarete, String url) {
+    private String poste;
+
+    private String natio;
+
+    private String club;
+
+    public Card(String nom, Rarete rare, String url, String poste, String natio, String club) {
         this.nom = nom;
-        Rarete = rarete;
+        this.rare = rare;
         this.url = url;
+        this.poste = poste;
+        this.natio = natio;
+        this.club = club;
     }
 
     public String getNom() {
@@ -20,12 +29,12 @@ public class Card {
         this.nom = nom;
     }
 
-    public String getRarete() {
-        return Rarete;
+    public Rarete getRare() {
+        return rare;
     }
 
-    public void setRarete(String rarete) {
-        Rarete = rarete;
+    public void setRare(Rarete rare) {
+        this.rare = rare;
     }
 
     public String getUrl() {
