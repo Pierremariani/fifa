@@ -2,11 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1133.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.HelloController">
     <padding>
@@ -24,9 +26,8 @@
                <Image url="@../../../images/draft.jpg" />
             </image>
          </ImageView>
-         <Button fx:id="buttonopening" layoutX="283.0" layoutY="20.0" mnemonicParsing="false" onAction="#onClickedButton" prefHeight="33.0" prefWidth="107.0" text="Open" />
-         <ImageView fx:id="CardonScreen" fitHeight="412.0" fitWidth="278.0" layoutX="186.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
-         <ImageView fx:id="anim" fitHeight="396.0" fitWidth="642.0" layoutX="56.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <ImageView fx:id="CardonScreen" fitHeight="453.0" fitWidth="354.0" layoutX="357.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+         <ImageView fx:id="anim" fitHeight="551.0" fitWidth="1100.0" layoutX="269.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
                <Image url="@../../../images/confetti.gif" />
             </image>
@@ -47,33 +48,22 @@
          <ImageView fx:id="ag" fitHeight="160.0" fitWidth="143.0" layoutX="176.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          <ImageView fx:id="md" fitHeight="172.0" fitWidth="176.0" layoutX="574.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          <ImageView fx:id="mc" fitHeight="213.0" fitWidth="192.0" layoutX="379.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-         <TextField fx:id="tfad" layoutX="666.0" layoutY="53.0" prefHeight="18.0" prefWidth="51.0" visible="false" />
-         <TextField fx:id="tfbu" layoutX="435.0" layoutY="24.0" prefHeight="16.0" prefWidth="60.0" visible="false" />
-         <TextField fx:id="tfag" layoutX="216.0" layoutY="53.0" prefHeight="11.0" prefWidth="51.0" visible="false" />
-         <TextField fx:id="tfmd" layoutX="606.0" layoutY="195.0" prefHeight="25.0" prefWidth="60.0" visible="false" />
-         <TextField fx:id="tfmc" layoutX="435.0" layoutY="171.0" prefHeight="14.0" prefWidth="60.0" visible="false" />
-         <TextField fx:id="tfmg" layoutX="253.0" layoutY="195.0" prefHeight="25.0" prefWidth="60.0" visible="false" />
          <Button fx:id="buttonad" layoutX="673.0" layoutY="159.0" mnemonicParsing="false" onAction="#adclicked" text="add" visible="false" />
          <Button fx:id="buttonbu" layoutX="446.0" layoutY="134.0" mnemonicParsing="false" onAction="#buclicked" text="add" visible="false" />
          <Button fx:id="buttonag" layoutX="223.0" layoutY="159.0" mnemonicParsing="false" onAction="#agclicked" text="add" visible="false" />
          <Button fx:id="buttonmd" layoutX="625.0" layoutY="302.0" mnemonicParsing="false" onAction="#mdclicked" text="add" visible="false" />
          <Button fx:id="buttonmc" layoutX="446.0" layoutY="283.0" mnemonicParsing="false" onAction="#mcclicked" text="add" visible="false" />
          <ImageView fx:id="mg" fitHeight="172.0" fitWidth="153.0" layoutX="223.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-         <TextField fx:id="tfdg" layoutX="115.0" layoutY="326.0" prefHeight="13.0" prefWidth="60.0" visible="false" />
          <ImageView fx:id="dg" fitHeight="183.0" fitWidth="186.0" layoutX="80.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          <ImageView fx:id="dcg" fitHeight="183.0" fitWidth="153.0" layoutX="284.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-         <TextField fx:id="tfdcg" layoutX="330.0" layoutY="339.0" prefHeight="25.0" prefWidth="60.0" visible="false" />
-         <TextField fx:id="tfdcd" layoutX="544.0" layoutY="336.0" prefHeight="11.0" prefWidth="60.0" visible="false" />
          <ImageView fx:id="dd" fitHeight="172.0" fitWidth="137.0" layoutX="709.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          <Button fx:id="buttondd" layoutX="752.0" layoutY="424.0" mnemonicParsing="false" onAction="#ddclicked" prefHeight="25.0" prefWidth="51.0" text="add" visible="false" />
          <Button fx:id="buttondcg" layoutX="339.0" layoutY="424.0" mnemonicParsing="false" onAction="#dcgclicked" text="add" visible="false" />
-         <TextField fx:id="tfdd" layoutX="747.0" layoutY="323.0" prefHeight="13.0" prefWidth="60.0" visible="false" />
          <ImageView fx:id="dcd" fitHeight="160.0" fitWidth="131.0" layoutX="512.0" layoutY="320.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          <Button fx:id="buttondcd" layoutX="556.0" layoutY="424.0" mnemonicParsing="false" onAction="#dcdclicked" text="add" visible="false" />
-         <TextField fx:id="tfgk" layoutX="438.0" layoutY="424.0" prefHeight="7.0" prefWidth="51.0" visible="false" />
          <ImageView fx:id="gkimage" fitHeight="183.0" fitWidth="168.0" layoutX="391.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          <Button fx:id="buttongk" layoutX="447.0" layoutY="518.0" mnemonicParsing="false" onAction="#gkclicked" text="add" visible="false" />
-         <ImageView fx:id="esteanimation" fitHeight="520.0" fitWidth="871.0" layoutX="89.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <ImageView fx:id="esteanimation" fitHeight="501.0" fitWidth="332.0" layoutX="834.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
                <Image url="@../../../images/megaesteban.gif" />
             </image>
@@ -86,6 +76,33 @@
          <ImageView fx:id="show5" fitHeight="117.0" fitWidth="120.0" layoutX="894.0" layoutY="-4.0" onMousePressed="#show5clicked" pickOnBounds="true" preserveRatio="true" />
          <Button fx:id="buttondg" layoutX="128.0" layoutY="412.0" mnemonicParsing="false" onAction="#dgclicked" text="add" visible="false" />
          <Button fx:id="buttonmg" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" onAction="#mgclicked" text="add" visible="false" />
+         <Label fx:id="collectif" layoutX="-8.0" layoutY="-65.0" prefHeight="50.0" prefWidth="153.0" textFill="WHITE" visible="false" />
+         <ImageView fx:id="loading" fitHeight="33.0" fitWidth="51.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+               <Image url="@../../../images/loading.png" />
+            </image>
+         </ImageView>
+         <Label fx:id="note" layoutX="-12.0" layoutY="-3.0" prefHeight="50.0" prefWidth="120.0" textFill="WHITE" visible="false" />
+         <ImageView fx:id="packfiesta" fitHeight="360.0" fitWidth="250.0" layoutX="666.0" layoutY="147.0" onMousePressed="#packfiestaclicked" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../images/ultimate-pack-removebg-preview.png" />
+            </image>
+         </ImageView>
+         <Button fx:id="buttonsimulation" layoutX="12.0" layoutY="543.0" mnemonicParsing="false" onMouseClicked="#simulationclicked" text="start" visible="false" />
+         <ImageView fx:id="goldpack" fitHeight="353.0" fitWidth="248.0" layoutX="215.0" layoutY="151.0" onMouseClicked="#ongoldpackclicked" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../images/goldpack.png" />
+            </image>
+         </ImageView>
+         <Label fx:id="openinglabel" alignment="CENTER" layoutX="192.0" layoutY="4.0" prefHeight="101.0" prefWidth="729.0" text="Veuillez choisir un Pack de Draft" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="42.0" />
+            </font>
+            <effect>
+               <Glow level="0.85" />
+            </effect>
+         </Label>
+         <Button fx:id="nextbutton" layoutX="485.0" layoutY="571.0" mnemonicParsing="false" onMousePressed="#onnextclicked" prefHeight="33.0" prefWidth="99.0" text="Suivant" visible="false" />
       </children>
    </Pane>
 </VBox>

@@ -1,5 +1,6 @@
 package com.example.demo1;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,21 +16,20 @@ import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
 
+    @FXML
+    Label collectif,note,openinglabel;
 
     @FXML
     ArrayList<Card> listeCard = new ArrayList<>();
 
     @FXML
-    ImageView CardonScreen,anim,backgroundopening,backgrounddraft,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11;
+    ImageView CardonScreen,anim,backgroundopening,backgrounddraft,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11,loading,packfiesta;
 
     @FXML
-    Button buttonopening,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad;
+    Button nextbutton,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad,buttonsimulation;
 
     @FXML
-    TextField tfgk,tfdcd,tfdcg,tfdd,tfdg,tfmg,tfmc,tfmd,tfag,tfbu,tfad;
-
-    @FXML
-    ImageView currentpos;
+    ImageView currentpos,goldpack;
 
     ArrayList<Card> listeEpic = new ArrayList<>();
 
@@ -43,9 +43,18 @@ public class HelloController implements Initializable {
 
     ArrayList<Card> PlayerCard = new ArrayList<>();
 
+    ArrayList<String> QuartEquipe = new ArrayList<>();
+    ArrayList<String> DemiEquipe = new ArrayList<>();
+
+    ArrayList<String> FinalEquipe = new ArrayList<>();
+
+
+
     Card board[] = new Card[11];
 
     int numpos = 99;
+
+    boolean fiesta = false;
 
 
 
@@ -58,53 +67,141 @@ public class HelloController implements Initializable {
     int lastindex = 999;
 
     @FXML
-    protected void onClickedButton() {
+    protected void simulationclicked() {
+        int scoremoi = 0;
+        int scoreennemi = 0;
+        Random random = new Random();
+        int randomNumber = random.nextInt(QuartEquipe.size());
+        System.out.println("L'équipe que nous aller affronter en Quart de Final sera : "+QuartEquipe.get(randomNumber));
+        int random10min = random.nextInt(2);
+        int random10Def;
+        if (random10min == 1) {
+            random10min = random.nextInt(10)+1;
+            System.out.println("Offensive de : "+PlayerCard.get(random10min).getNom());
+            if (getNote() + getCollectif() > 155) {
+                scoremoi++;
+                System.out.println("BUT !!");
+            }
+            else {
+                System.out.println("ballon contrer");
+            }
+        }
+        else {
+            System.out.println("Offensive ennemie");
+            random10Def = random.nextInt(3);
+            if (random10Def == 1) {
+                System.out.println("But Ennemi");
+                scoreennemi++;
+            }
+            else {
+                int rand10minGK = random.nextInt(2);
+                if (rand10minGK == 1) {
+                    System.out.println("arret de "+board[0].getNom());
+                }
+                else {
+                    int randDefenseur = random.nextInt(4);
+                    System.out.println("Ballon défendu par "+board[randDefenseur]);
+                }
+            }
+        }
+    }
+
+    @FXML
+    protected void onnextclicked() {
+        tirage();
+    }
+    @FXML
+    protected void ongoldpackclicked() {
+        hideoppening();
+        tirage();
+    }
+
+    public boolean StartGame() {
+        boolean oui = true;
+        for (int i = 0 ; i < board.length; i++) {
+            if (board[i] == null) {
+                oui = false;
+            }
+        }
+        if (oui) {
+            buttonsimulation.setVisible(true);
+        }
+        return oui;
+    }
+
+    @FXML
+    protected void packfiestaclicked() {
+        fiesta = true;
+        hideoppening();
+        tirage();
+    }
+
+    protected void hideoppening() {
+        openinglabel.setVisible(false);
+        goldpack.setVisible(false);
+        packfiesta.setVisible(false);
+        CardonScreen.setVisible(true);
+        nextbutton.setVisible(true);
+    }
+
+    @FXML
+    protected void tirage() {
         boolean validate = false;
         Random random = new Random();
         int randomNumber;
-        int r;
+        int r = 0;
         randomNumber = random.nextInt(100) + 0;
         String result = getLuck(randomNumber);
             if (nb > 10) {
                 changeGame();
             }
             else {
-                if (result == "epique") {
+                if (result == "epique" && !listeEpic.isEmpty()) {
                     r = random.nextInt(listeEpic.size()) + 0;
                     getanim = true;
                     getanimultra = false;
                     changeImageViewImg(CardonScreen, listeEpic.get(r).getUrl());
                     PlayerCard.add(listeEpic.get(r));
-                } else if (result == "legendaire") {
+                    listeEpic.remove(listeEpic.get(r));
+                } else if (result == "legendaire" && !listeLegendaire.isEmpty()) {
                     r = random.nextInt(listeLegendaire.size()) + 0;
                     getanim = true;
                     getanimultra = false;
                     changeImageViewImg(CardonScreen, listeLegendaire.get(r).getUrl());
                     PlayerCard.add(listeLegendaire.get(r));
-                } else if (result == "rare") {
+                    listeLegendaire.remove(listeLegendaire.get(r));
+                } else if (result == "rare" && !listeRare.isEmpty()) {
                     r = random.nextInt(listeRare.size()) + 0;
                     getanim = false;
                     getanimultra = false;
                     changeImageViewImg(CardonScreen, listeRare.get(r).getUrl());
                     PlayerCard.add(listeRare.get(r));
+                    listeRare.remove(listeRare.get(r));
                 }
-                else if (result == "ultra") {
+                else if (result == "ultra" && !listeUltra.isEmpty()) {
                     r = random.nextInt(listeUltra.size()) + 0;
                     getanim = true;
                     getanimultra = true;
                     changeImageViewImg(CardonScreen, listeUltra.get(r).getUrl());
                     PlayerCard.add(listeUltra.get(r));
+                    listeUltra.remove(listeUltra.get(r));
                 }
                 else {
-                    r = random.nextInt(listeCommun.size()) + 0;
+                    boolean yes = true;
+                    while(yes) {
+                        r = random.nextInt(listeCommun.size()) + 0;
+                        if (listeCommun.get(r).getUrl() != null) {
+                            yes = false;
+                        }
+                    }
                     getanim = false;
                     getanimultra = false;
                     changeImageViewImg(CardonScreen, listeCommun.get(r).getUrl());
                     PlayerCard.add(listeCommun.get(r));
+                    listeCommun.remove(listeCommun.get(r));
                 }
                 if (getanim) {
                     anim.setVisible(true);
-                    System.out.println("on montre anim");
                 } else {
                     anim.setVisible(false);
                 }
@@ -164,271 +261,439 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void show9clicked() {
-        System.out.println("image 9 cliquée");
+        if (PlayerCard.get(8).isOnboard()) {
+            if (PlayerCard.get(8).getPos() != currentpos) {
+                PlayerCard.get(8).getPos().setVisible(false);
+                changeImageViewImg(PlayerCard.get(8).getPos(),"loading.png");
+                PlayerCard.get(8).getPos().setVisible(false);            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(8).getUrl());
-        hideEveryImage();
-        showButton();
-        board[numpos] = PlayerCard.get(8);
+        currentpos.setVisible(true);
+        PlayerCard.get(8).setOnboard(true);
+            PlayerCard.get(8).setPos(currentpos);
+            hideEveryImage();
+            showButton();
+            board[numpos] = PlayerCard.get(8);
+            collectif.setText("Collectif : "+getCollectif());
+            note.setText("Note générale : "+getNote());
+            StartGame();
     }
 
     @FXML
     protected void show8clicked() {
-        System.out.println("image 8 cliquée");
+        if (PlayerCard.get(7).isOnboard()) {
+            if (PlayerCard.get(7).getPos() != currentpos) {
+                PlayerCard.get(7).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(7).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(7).setOnboard(true);
+        PlayerCard.get(7).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(7);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
     @FXML
     protected void show7clicked() {
-        System.out.println("image 7 cliquée");
+        if (PlayerCard.get(6).isOnboard()) {
+            if (PlayerCard.get(6).getPos() != currentpos) {
+                PlayerCard.get(6).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(6).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(6).setOnboard(true);
+        PlayerCard.get(6).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(6);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
 
     @FXML
     protected void show6clicked() {
-        System.out.println("image 6 cliquée");
+        if (PlayerCard.get(5).isOnboard()) {
+            if (PlayerCard.get(5).getPos() != currentpos) {
+                PlayerCard.get(5).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(5).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(5).setOnboard(true);
+        PlayerCard.get(5).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(5);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
 
     @FXML
     protected void show5clicked() {
-        System.out.println("image 5 cliquée");
+        if (PlayerCard.get(4).isOnboard()) {
+            if (PlayerCard.get(4).getPos() != currentpos) {
+                PlayerCard.get(4).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(4).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(4).setOnboard(true);
+        PlayerCard.get(4).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(4);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
     @FXML
     protected void show4clicked() {
-        System.out.println("image 4 cliquée");
+        if (PlayerCard.get(3).isOnboard()) {
+            if (PlayerCard.get(3).getPos() != currentpos) {
+                PlayerCard.get(3).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(3).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(3).setOnboard(true);
+        PlayerCard.get(3).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(3);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
-
 
     @FXML
     protected void show11clicked() {
-        System.out.println("image 11 cliquée");
+        if (PlayerCard.get(10).isOnboard()) {
+            if (PlayerCard.get(10).getPos() != currentpos) {
+                PlayerCard.get(10).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(10).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(10).setOnboard(true);
+        PlayerCard.get(10).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(10);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
     @FXML
     protected void show10clicked() {
-        System.out.println("image 10 cliquée");
+        if (PlayerCard.get(9).isOnboard()) {
+            if (PlayerCard.get(9).getPos() != currentpos) {
+                PlayerCard.get(9).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(9).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(9).setOnboard(true);
+        PlayerCard.get(9).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(9);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
     @FXML
     protected void show3clicked() {
-        System.out.println("image 3 cliquée");
+        if (PlayerCard.get(2).isOnboard()) {
+            if (PlayerCard.get(2).getPos() != currentpos) {
+                PlayerCard.get(2).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(2).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(2).setOnboard(true);
+        PlayerCard.get(2).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(2);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
     @FXML
     protected void show2clicked() {
-        System.out.println("image 2 cliquée");
+        if (PlayerCard.get(1).isOnboard()) {
+            if (PlayerCard.get(1).getPos() != currentpos) {
+                PlayerCard.get(1).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(1).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(1).setOnboard(true);
+        PlayerCard.get(1).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(1);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
     @FXML
     protected void show1clicked() {
-        System.out.println("image 1 cliquée");
+        if (PlayerCard.get(0).isOnboard()) {
+            if (PlayerCard.get(0).getPos() != currentpos) {
+                PlayerCard.get(0).getPos().setVisible(false);
+            }
+        }
         changeImageViewImg(currentpos, PlayerCard.get(0).getUrl());
+        currentpos.setVisible(true);
+        PlayerCard.get(0).setOnboard(true);
+        PlayerCard.get(0).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(0);
+        collectif.setText("Collectif : "+getCollectif());
+        note.setText("Note générale : "+getNote());
+        StartGame();
     }
 
+    public int isOnCase(int i) {
+        if (board[i] != null) {
+            for (int j = 0 ; j < PlayerCard.size(); j++) {
+                 if (PlayerCard.get(j).getNom() == board[i].getNom()) {
+                     return j;
+                 }
+            }
+        }
+        return 99;
+    }
 
+    public String showBoard() {
+        String s="";
+        for (int i = 0 ; i < board.length; i++) {
+            if (board[i] == null ) {
+                s+= " null ";
+            }
+            else {
+                s+= board[i].getNom()+" ";
+            }
+        }
+        return s;
+    }
+
+    public void verifydoublon(int d ) {
+        for (int i = 0 ; i < board.length;i++) {
+            if (board[i] != null && d != i ) {
+                if (board[i].getNom().equals(board[d].getNom())) {
+                    board[d] = null;
+                    System.out.println("doublon supprimé");
+                    System.out.println(board[i]);
+                }
+            }
+        }
+        System.out.println(showBoard());
+    }
 
     @FXML
     protected void gkclicked() {
-        //changeImageViewImg(gkimage,PlayerCard.get(Integer.parseInt(tfgk.getText())).getUrl());
         showEveryImage();
         buttongk.setVisible(false);
-        tfgk.setVisible(false);
-        gkimage.setVisible(true);
         currentpos = gkimage;
         hideButton();
         numpos = 0;
+        collectif.setText("Collectif : "+getCollectif());
+    }
+
+    protected void testOnCase(int i) {
+        if (isOnCase(i) != 99) {
+            PlayerCard.get(isOnCase(i)).getPos().setVisible(false);
+            PlayerCard.get(isOnCase(i)).setOnboard(false);
+            PlayerCard.get(isOnCase(i)).setPos(null);
+        }
+        verifydoublon(i);
     }
 
     @FXML
     protected void dcdclicked() {
         showEveryImage();
-
-        //changeImageViewImg(dcd,PlayerCard.get(Integer.parseInt(tfdcd.getText())).getUrl());
         buttondcd.setVisible(false);
-        tfdcd.setVisible(false);
-        dcd.setVisible(true);
         currentpos = dcd;
         hideButton();
         numpos = 3;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void mgclicked() {
         showEveryImage();
         currentpos = mg;
-        //changeImageViewImg(mg,PlayerCard.get(Integer.parseInt(tfmg.getText())).getUrl());
         buttonmg.setVisible(false);
-        tfmg.setVisible(false);
-        mg.setVisible(true);
         hideButton();
         numpos = 5;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void mcclicked() {
         showEveryImage();
         currentpos = mc;
-        //changeImageViewImg(mc,PlayerCard.get(Integer.parseInt(tfmc.getText())).getUrl());
         buttonmc.setVisible(false);
-        tfmc.setVisible(false);
-        mc.setVisible(true);
         hideButton();
         numpos = 6;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void mdclicked() {
         showEveryImage();
         currentpos = md;
-        //changeImageViewImg(md,PlayerCard.get(Integer.parseInt(tfmd.getText())).getUrl());
         buttonmd.setVisible(false);
-        tfmd.setVisible(false);
-        md.setVisible(true);
         hideButton();
         numpos = 7;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void agclicked() {
         showEveryImage();
         currentpos = ag;
-        //changeImageViewImg(ag,PlayerCard.get(Integer.parseInt(tfag.getText())).getUrl());
         buttonag.setVisible(false);
-        tfag.setVisible(false);
-        ag.setVisible(true);
         hideButton();
         numpos = 8;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void buclicked() {
         showEveryImage();
         currentpos = bu;
-        //changeImageViewImg(bu,PlayerCard.get(Integer.parseInt(tfbu.getText())).getUrl());
         buttonbu.setVisible(false);
-        tfbu.setVisible(false);
-        bu.setVisible(true);
         hideButton();
         numpos = 9;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void adclicked() {
         showEveryImage();
         currentpos = ad;
-        //changeImageViewImg(ad,PlayerCard.get(Integer.parseInt(tfad.getText())).getUrl());
         buttonad.setVisible(false);
-        tfad.setVisible(false);
-        ad.setVisible(true);
         hideButton();
         numpos = 10;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void dcgclicked() {
         showEveryImage();
         currentpos = dcg;
-        //changeImageViewImg(dcg,PlayerCard.get(Integer.parseInt(tfdcg.getText())).getUrl());
         buttondcg.setVisible(false);
-        tfdcg.setVisible(false);
-        dcg.setVisible(true);
         hideButton();
         numpos = 2;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void dgclicked() {
         showEveryImage();
         currentpos = dg;
-        //changeImageViewImg(dg,PlayerCard.get(Integer.parseInt(tfdg.getText())).getUrl());
         buttondg.setVisible(false);
-        tfdg.setVisible(false);
-        dg.setVisible(true);
         hideButton();
         numpos = 1;
-
+        collectif.setText("Collectif : "+getCollectif());
     }
 
     @FXML
     protected void ddclicked() {
         showEveryImage();
         currentpos = dd;
-        //changeImageViewImg(dd,PlayerCard.get(Integer.parseInt(tfdd.getText())).getUrl());
         buttondd.setVisible(false);
-        tfdd.setVisible(false);
-        dd.setVisible(true);
         hideButton();
         numpos = 4;
-
     }
 
     public int getCollectif() {
-        return 0;
+        int total = 0;
+        for (int i = 0 ; i < board.length;i++) {
+            if (i != 0) {
+                if (board[i] != null && board[i-1] != null) {
+                    if (board[i - 1].getNatio() == board[i].getNatio()) {
+                        total += 5;
+                    }
+                    if (board[i - 1].getClub() == board[i].getClub()) {
+                        total += 10;
+                    }
+                }
+            }
+            if (board[i] != null) {
+                if (board[i].getPoste() == i || board[i].getPoste() == 99) {
+                    total += 5;
+                }
+                if (board[i].getPoste() == 2 && i == 3) {
+                    total+=5;
+                }
+            }
+        }
+        if (total > 100) {
+            return 100;
+        }
+        else {
+            return total;
+        }
+    }
+
+    public int getNote() {
+        double total = 0;
+        int nb=0;
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != null) {
+                total += board[i].getNote();
+                nb++;
+            }
+        }
+        return (int)total/nb;
     }
 
     String getLuck(int randomNumber) {
-        System.out.println(randomNumber);
-        if (randomNumber < 46) {
-            return "commun";
-        }
-        else if (randomNumber < 71) {
-            return "rare";
-        }
-        else if (randomNumber < 91) {
-            return "epique";
-        }
-        else if (randomNumber < 96){
-            return "legendaire";
+        if (!fiesta) {
+            if (randomNumber < 46) {
+                return "commun";
+            } else if (randomNumber < 71) {
+                return "rare";
+            } else if (randomNumber < 91) {
+                return "epique";
+            } else if (randomNumber < 96) {
+                return "legendaire";
+            } else {
+                return "ultra";
+            }
         }
         else {
-            return "ultra";
+            if (randomNumber < 26) {
+                return "commun";
+            } else if (randomNumber < 41) {
+                return "rare";
+            } else if (randomNumber < 61) {
+                return "epique";
+            } else if (randomNumber < 86) {
+                return "legendaire";
+            } else {
+                return "ultra";
+            }
         }
     }
 
@@ -439,39 +704,22 @@ public class HelloController implements Initializable {
         chat.setVisible(false);
         backgroundopening.setVisible(false);
         backgrounddraft.setVisible(true);
-        buttonopening.setVisible(false);
-        /*
-        tfgk.setVisible(true);
-        tfdcd.setVisible(true);
-        tfdd.setVisible(true);
-        tfdcg.setVisible(true);
-        tfdg.setVisible(true);
-        tfad.setVisible(true);
-        tfag.setVisible(true);
-        tfbu.setVisible(true);
-        tfmc.setVisible(true);
-        tfmd.setVisible(true);
-        tfmg.setVisible(true);
-
-         */
+        goldpack.setVisible(false);
+        nextbutton.setVisible(false);
         buttongk.setVisible(true);
-
-        //showhand.setVisible(true);
         buttondcd.setVisible(true);
         buttondcg.setVisible(true);
         buttondd.setVisible(true);
         buttondg.setVisible(true);
-
-
-
-
+        packfiesta.setVisible(false);
         buttonad.setVisible(true);
         buttonag.setVisible(true);
         buttonbu.setVisible(true);
         buttonmc.setVisible(true);
         buttonmd.setVisible(true);
         buttonmg.setVisible(true);
-
+        collectif.setVisible(true);
+        note.setVisible(true);
         showCard();
     }
 
@@ -488,7 +736,6 @@ public class HelloController implements Initializable {
         buttonmd.setVisible(false);
         buttonmg.setVisible(false);
         buttongk.setVisible(false);
-
     }
 
     public void showButton() {
@@ -503,7 +750,6 @@ public class HelloController implements Initializable {
         buttonmd.setVisible(true);
         buttonmg.setVisible(true);
         buttongk.setVisible(true);
-
     }
 
     public void showCard() {
@@ -521,29 +767,40 @@ public class HelloController implements Initializable {
         Rarete epique = new Rarete(20,"epique");
         Rarete legendaire = new Rarete(10,"legendaire");
         Rarete ultra = new Rarete(4,"ultra");
-        //changeImageViewImg(imgFond,"background.jpeg");
-        Card Miniou = new Card("Miniou" , commun,"miniou.png","all","fr","real");
-        Card Brahim = new Card("Brahim" ,rare,"brahim.png","ad","maroc","real");
-        Card Justin = new Card("Huang", epique , "justin.png","bu","chine","real");
-        Card Lorenz = new Card("Bretzel",legendaire,"bretzel.png","dc","gua","city");
-        Card Laura = new Card("Madeleine",legendaire,"madeleine.png","gk","port","clev");
-        Card batman = new Card("batman", commun,"batman.png","ag","fr","ac");
-        Card pernet = new Card("Pernet",rare,"pernet.png","mc","br","ac");
-        Card Vigiw = new Card("Vigiw",legendaire,"vigiw.png","all","fr","monaco");
-        Card tonton = new Card("Tonton",legendaire,"tonton.png","dg","sen","united");
-        Card thibault = new Card("Thibault", commun,"thibault.png","md","fr","barca");
-        Card arthur = new Card("Arthur",commun,"arthur.png","dd","fr","psg");
-        Card bryan = new Card("Bryan",commun,"bryan.png","all","congo","frank");
-        Card haitem = new Card("Haitem",epique,"haitem.png","bu","fr","psg");
-        Card thoury = new Card("Thoury",legendaire,"thoury.png","dc","fr","nantes");
-        Card mariani = new Card("Mariani",legendaire,"mariani.png","all","ita","psg");
-        Card mamadou = new Card("Mamadou",commun,"mamadou.png","mc","br","real");
-        Card mohammed = new Card ("Mohammed",commun,"mohammed.png","dg","arg","ars");
-        Card leutrim = new Card("Leutrim", legendaire,"leutrim.png","mc","alba","truk");
-        Card ultraesteban = new Card("UltraEsteban",ultra,"ultraesteban.png","all","belge","real");
-        Card ultravirgil = new Card("ultravirgil" , ultra,"ultravirgil.png","all","fr","ac");
-        Card yousri = new Card("yousri",epique,"yousri.png","dg","japon","barca");
-        Card wallace = new Card("wallace",ultra,"wallace.png","all","fr","new");
+        Card Miniou = new Card("Miniou" , commun,"miniou.png",99,"fr","real",80);
+        Card Brahim = new Card("Brahim" ,rare,"brahim.png",10,"maroc","real",85);
+        Card Justin = new Card("Huang", epique , "justin.png",9,"chine","real",88);
+        Card Lorenz = new Card("Bretzel",legendaire,"bretzel.png",2,"gua","city",94);
+        Card Laura = new Card("Madeleine",legendaire,"madeleine.png",0,"port","clev",91);
+        Card batman = new Card("batman", commun,"batman.png",8,"fr","ac",86);
+        Card pernet = new Card("Pernet",rare,"pernet.png",6,"br","ac",87);
+        Card Vigiw = new Card("Vigiw",legendaire,"vigiw.png",99,"fr","monaco",96);
+        Card tonton = new Card("Tonton",legendaire,"tonton.png",1,"sen","united",92);
+        Card thibault = new Card("Thibault", commun,"thibault.png",7,"fr","barca",81);
+        Card arthur = new Card("Arthur",commun,"arthur.png",4,"fr","psg",84);
+        Card bryan = new Card("Bryan",commun,"bryan.png",99,"congo","frank",75);
+        Card haitem = new Card("Haitem",epique,"haitem.png",9,"fr","psg",89);
+        Card thoury = new Card("Thoury",legendaire,"thoury.png",2,"fr","nantes",99);
+        Card mariani = new Card("Mariani",legendaire,"mariani.png",99,"ita","psg",97);
+        Card mamadou = new Card("Mamadou",commun,"mamadou.png",6,"br","real",81);
+        Card mohammed = new Card ("Mohammed",commun,"mohammed.png",1,"arg","ars",83);
+        Card leutrim = new Card("Leutrim", legendaire,"leutrim.png",6,"alba","truk",90);
+        Card ultraesteban = new Card("UltraEsteban",ultra,"ultraesteban.png",99,"belge","real",93);
+        Card ultravirgil = new Card("ultravirgil" , ultra,"ultravirgil.png",99,"fr","ac",98);
+        Card yousri = new Card("yousri",epique,"yousri.png",1,"japon","barca",89);
+        Card wallace = new Card("wallace",ultra,"wallace.png",99,"fr","new",90);
+        Card fares = new Card("fares",ultra,"fares.png",6,"alge","ajax",92);
+        Card val = new Card("Val",epique,"val.png",0,"ita","ac",88);
+        Card tomleg = new Card("tomleg",legendaire,"tomleg.png",99,"anglais","united",95);
+        Card haitemleg = new Card("haitemleg",legendaire,"haitemleg.png",99,"fr","psg",94);
+        Card alex = new Card("alex",commun,"alex.png",4,"port","porto",82);
+        Card yannis = new Card("yannis",epique,"Yannis.png",7,"fr","psg",90);
+        listeEpic.add(yannis);
+        listeCommun.add(alex);
+        listeLegendaire.add(haitemleg);
+        listeLegendaire.add(tomleg);
+        listeEpic.add(val);
+        listeUltra.add(fares);
         listeUltra.add(wallace);
         listeEpic.add(yousri);
         listeUltra.add(ultraesteban);
@@ -581,6 +838,18 @@ public class HelloController implements Initializable {
         listeCard.add(haitem);
         listeCard.add(thoury);
         listeCard.add(mariani);
+        QuartEquipe.add("Milan AC");
+        QuartEquipe.add("Dortmund");
+        QuartEquipe.add("Arsenal");
+        QuartEquipe.add("Seville");
+        DemiEquipe.add("Chelsea");
+        DemiEquipe.add("Atletico Madrid");
+        DemiEquipe.add("Juventus");
+        DemiEquipe.add("Leipzig");
+        FinalEquipe.add("Paris");
+        FinalEquipe.add("Manchester City");
+        FinalEquipe.add("Real Madrid");
+        FinalEquipe.add("Bayern Munich");
     }
 
     public void changeImageViewImg(ImageView imgView, String linkImage){
