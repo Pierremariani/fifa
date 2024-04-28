@@ -1,5 +1,6 @@
 package com.example.demo1;
 
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,20 +11,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class HelloController implements Initializable {
 
+    String s;
+
     @FXML
-    Label collectif,note,openinglabel;
+    Label collectif,note,openinglabel,noteme,notennemi,displaymatch;
+
+    int scoremoi = 0;
+    int scoreennemi = 0;
+
+    Timer chrono = new Timer();
 
     @FXML
     ArrayList<Card> listeCard = new ArrayList<>();
 
     @FXML
-    ImageView CardonScreen,anim,backgroundopening,backgrounddraft,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11,loading,packfiesta;
+    ImageView CardonScreen,anim,backgroundopening,backgrounddraft,backgroundsimu,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11,loading,packfiesta;
 
     @FXML
     Button nextbutton,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad,buttonsimulation;
@@ -68,22 +77,70 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void simulationclicked() {
-        int scoremoi = 0;
-        int scoreennemi = 0;
         Random random = new Random();
         int randomNumber = random.nextInt(QuartEquipe.size());
         System.out.println("L'équipe que nous aller affronter en Quart de Final sera : "+QuartEquipe.get(randomNumber));
+        backgrounddraft.setVisible(false);
+        backgroundsimu.setVisible(true);
+        noteme.setVisible(true);
+        notennemi.setVisible(true);
+        displaymatch.setVisible(true);
+        scoreennemi = 0;
+        scoremoi = 0;
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> simuQuart());
+        }, 0, 1, TimeUnit.SECONDS); // Exécute simuQuart() toutes les secondes
+
+// Arrêter l'exécuteur après 9 secondes
+        executor.schedule(() -> {
+            executor.shutdown();
+        }, 30, TimeUnit.SECONDS);
+       if (scoremoi > scoreennemi) {
+           displaymatch.setText("Match terminé ! \n Victoire !!");
+       }
+       else {
+           displaymatch.setText("Match terminé ! \n Défaite t'es nul la honte ");
+       }
+    }
+
+    @FXML
+    protected void simuQuart() {
+        Random random = new Random();
+        s="";
         int random10min = random.nextInt(2);
         int random10Def;
         if (random10min == 1) {
             random10min = random.nextInt(10)+1;
-            System.out.println("Offensive de : "+PlayerCard.get(random10min).getNom());
+            System.out.println("Offensive de "+PlayerCard.get(random10min).getNom());
+            s+="Offensive de  "+PlayerCard.get(random10min).getNom() +" \n" ;
             if (getNote() + getCollectif() > 155) {
-                scoremoi++;
-                System.out.println("BUT !!");
+                int randbut = random.nextInt(2);
+                if (randbut == 1) {
+                    scoremoi++;
+                    System.out.println("BUT !!");
+                    s+="BUT !!\n";
+                    System.out.println(scoremoi + " - " + scoreennemi);
+                }
+                else {
+                    System.out.println("raté");
+                    s+="raté \n";
+                }
             }
             else {
-                System.out.println("ballon contrer");
+                if (PlayerCard.get(random10min).getNote() >= 90) {
+                    int randnullos = random.nextInt(3);
+                    if (randnullos == 2) {
+                        System.out.println("BUT !! de "+PlayerCard.get(random10min).getNom());
+                        s+="BUT de "+PlayerCard.get(random10min).getNom()+" !!\n";
+                        scoremoi++;
+                        System.out.println(scoremoi + " - " + scoreennemi);
+                    }
+                }
+                else {
+                    System.out.println("ballon contrer");
+                    s += "ballon contrer \n";
+                }
             }
         }
         else {
@@ -92,18 +149,25 @@ public class HelloController implements Initializable {
             if (random10Def == 1) {
                 System.out.println("But Ennemi");
                 scoreennemi++;
+                System.out.println(scoremoi+" - "+scoreennemi);
+                s+=" But Ennemi \n";
             }
             else {
                 int rand10minGK = random.nextInt(2);
                 if (rand10minGK == 1) {
                     System.out.println("arret de "+board[0].getNom());
+                    s+="arret de "+board[0].getNom()+"\n";
                 }
                 else {
                     int randDefenseur = random.nextInt(4);
-                    System.out.println("Ballon défendu par "+board[randDefenseur]);
+                    System.out.println("Ballon défendu par "+board[randDefenseur].getNom());
+                    s+="Ballon défendu par "+board[randDefenseur].getNom()+"\n";
                 }
             }
         }
+        noteme.setText(String.valueOf(scoremoi));
+        notennemi.setText(String.valueOf(scoreennemi));
+        displaymatch.setText(s);
     }
 
     @FXML
@@ -399,7 +463,7 @@ public class HelloController implements Initializable {
     protected void show10clicked() {
         if (PlayerCard.get(9).isOnboard()) {
             if (PlayerCard.get(9).getPos() != currentpos) {
-                PlayerCard.get(9).getPos().setVisible(false);
+                PlayerCard.get(9).getPos().setVisible(false); // ?
             }
         }
         changeImageViewImg(currentpos, PlayerCard.get(9).getUrl());
@@ -438,6 +502,7 @@ public class HelloController implements Initializable {
         if (PlayerCard.get(1).isOnboard()) {
             if (PlayerCard.get(1).getPos() != currentpos) {
                 PlayerCard.get(1).getPos().setVisible(false);
+                PlayerCard.get(1).setPos(null);
             }
         }
         changeImageViewImg(currentpos, PlayerCard.get(1).getUrl());
