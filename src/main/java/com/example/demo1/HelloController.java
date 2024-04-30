@@ -343,17 +343,16 @@ public class HelloController implements Initializable {
     protected void show9clicked() {
         if (PlayerCard.get(8).isOnboard()) {
             if (PlayerCard.get(8).getPos() != currentpos) {
-                PlayerCard.get(8).getPos().setVisible(false);
-                changeImageViewImg(PlayerCard.get(8).getPos(),"loading.png");
-                PlayerCard.get(8).getPos().setVisible(false);            }
+                chasseurdetete(PlayerCard.get(8));
+            }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(8).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(8).setOnboard(true);
             PlayerCard.get(8).setPos(currentpos);
             hideEveryImage();
             showButton();
             board[numpos] = PlayerCard.get(8);
+            refreshAffichage();
             collectif.setText("Collectif : "+getCollectif());
             note.setText("Note générale : "+getNote());
             StartGame();
@@ -363,16 +362,16 @@ public class HelloController implements Initializable {
     protected void show8clicked() {
         if (PlayerCard.get(7).isOnboard()) {
             if (PlayerCard.get(7).getPos() != currentpos) {
-                PlayerCard.get(7).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(7));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(7).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(7).setOnboard(true);
         PlayerCard.get(7).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(7);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -382,16 +381,16 @@ public class HelloController implements Initializable {
     protected void show7clicked() {
         if (PlayerCard.get(6).isOnboard()) {
             if (PlayerCard.get(6).getPos() != currentpos) {
-                PlayerCard.get(6).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(6));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(6).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(6).setOnboard(true);
         PlayerCard.get(6).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(6);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -402,16 +401,16 @@ public class HelloController implements Initializable {
     protected void show6clicked() {
         if (PlayerCard.get(5).isOnboard()) {
             if (PlayerCard.get(5).getPos() != currentpos) {
-                PlayerCard.get(5).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(5));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(5).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(5).setOnboard(true);
         PlayerCard.get(5).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(5);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -422,16 +421,16 @@ public class HelloController implements Initializable {
     protected void show5clicked() {
         if (PlayerCard.get(4).isOnboard()) {
             if (PlayerCard.get(4).getPos() != currentpos) {
-                PlayerCard.get(4).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(4));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(4).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(4).setOnboard(true);
         PlayerCard.get(4).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(4);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -441,16 +440,16 @@ public class HelloController implements Initializable {
     protected void show4clicked() {
         if (PlayerCard.get(3).isOnboard()) {
             if (PlayerCard.get(3).getPos() != currentpos) {
-                PlayerCard.get(3).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(3));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(3).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(3).setOnboard(true);
         PlayerCard.get(3).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(3);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -460,7 +459,7 @@ public class HelloController implements Initializable {
     protected void show11clicked() {
         if (PlayerCard.get(10).isOnboard()) {
             if (PlayerCard.get(10).getPos() != currentpos) {
-                PlayerCard.get(10).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(10));
             }
         }
         changeImageViewImg(currentpos, PlayerCard.get(10).getUrl());
@@ -470,6 +469,7 @@ public class HelloController implements Initializable {
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(10);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -479,16 +479,16 @@ public class HelloController implements Initializable {
     protected void show10clicked() {
         if (PlayerCard.get(9).isOnboard()) {
             if (PlayerCard.get(9).getPos() != currentpos) {
-                PlayerCard.get(9).getPos().setVisible(false); // ?
+                chasseurdetete(PlayerCard.get(0));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(9).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(9).setOnboard(true);
         PlayerCard.get(9).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(9);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -498,16 +498,16 @@ public class HelloController implements Initializable {
     protected void show3clicked() {
         if (PlayerCard.get(2).isOnboard()) {
             if (PlayerCard.get(2).getPos() != currentpos) {
-                PlayerCard.get(2).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(2));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(2).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(2).setOnboard(true);
         PlayerCard.get(2).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(2);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -517,17 +517,16 @@ public class HelloController implements Initializable {
     protected void show2clicked() {
         if (PlayerCard.get(1).isOnboard()) {
             if (PlayerCard.get(1).getPos() != currentpos) {
-                PlayerCard.get(1).getPos().setVisible(false);
-                PlayerCard.get(1).setPos(null);
+                chasseurdetete(PlayerCard.get(1));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(1).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(1).setOnboard(true);
         PlayerCard.get(1).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(1);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
@@ -537,19 +536,30 @@ public class HelloController implements Initializable {
     protected void show1clicked() {
         if (PlayerCard.get(0).isOnboard()) {
             if (PlayerCard.get(0).getPos() != currentpos) {
-                PlayerCard.get(0).getPos().setVisible(false);
+                chasseurdetete(PlayerCard.get(0));
             }
         }
-        changeImageViewImg(currentpos, PlayerCard.get(0).getUrl());
         currentpos.setVisible(true);
         PlayerCard.get(0).setOnboard(true);
         PlayerCard.get(0).setPos(currentpos);
         hideEveryImage();
         showButton();
         board[numpos] = PlayerCard.get(0);
+        refreshAffichage();
         collectif.setText("Collectif : "+getCollectif());
         note.setText("Note générale : "+getNote());
         StartGame();
+    }
+
+    public void chasseurdetete(Card c) {
+        for (int i = 0 ; i < board.length;i++) {
+            if (board[i] != null) {
+                if (board[i].getNom() == c.getNom()) {
+                    board[i] = null;
+                    System.out.println("tete enlevée");
+                }
+            }
+        }
     }
 
     public int isOnCase(int i) {
