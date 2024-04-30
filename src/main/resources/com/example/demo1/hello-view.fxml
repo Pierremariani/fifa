@@ -139,6 +139,48 @@
             </image>
          </ImageView>
          <Button fx:id="changebutton" layoutX="475.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#onchangeclicked" text="change" visible="false" />
+         <ImageView fx:id="tir" fitHeight="747.0" fitWidth="1215.0" layoutX="-20.0" layoutY="-72.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+               <Image url="@../../../images/tir.jpg" />
+            </image>
+         </ImageView>
+         <Button fx:id="buttontir" layoutX="218.0" layoutY="543.0" mnemonicParsing="false" onMouseClicked="#ontireclicked" text="Tirs aux buts" visible="false" />
+         <ImageView fx:id="gardien" fitHeight="841.0" fitWidth="1295.0" layoutX="-20.0" layoutY="-71.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+               <Image url="@../../../images/gardien.jpg" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="flecheM" fitHeight="150.0" fitWidth="200.0" layoutX="512.0" layoutY="136.0" onMouseClicked="#ontirMid" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+               <Image url="@../../../images/fleche.png" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="flecheD" fitHeight="150.0" fitWidth="200.0" layoutX="860.0" layoutY="136.0" onMouseClicked="#ontirDroit" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+               <Image url="@../../../images/fleche.png" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="flecheG" fitHeight="150.0" fitWidth="200.0" layoutX="32.0" layoutY="127.0" onMouseClicked="#ontirgauche" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+               <Image url="@../../../images/fleche.png" />
+            </image>
+         </ImageView>
+         <Label fx:id="scoretir" layoutX="401.0" layoutY="-53.0" prefHeight="135.0" prefWidth="347.0" textFill="WHITE" visible="false">
+            <font>
+               <Font size="75.0" />
+            </font>
+            <effect>
+               <Glow level="1.0" />
+            </effect>
+         </Label>
+         <Label fx:id="scorecomment" layoutX="-17.0" layoutY="394.0" prefHeight="172.0" prefWidth="1177.0" textFill="WHITE">
+            <font>
+               <Font size="42.0" />
+            </font>
+            <effect>
+               <Glow level="1.0" />
+            </effect>
+         </Label>
       </children>
    </Pane>
 </VBox>

@@ -21,7 +21,7 @@ public class HelloController implements Initializable {
     String s;
 
     @FXML
-    Label collectif,note,openinglabel,noteme,notennemi,displaymatch;
+    Label collectif,note,openinglabel,noteme,notennemi,displaymatch,scoretir,scorecomment;
 
     int scoremoi = 0;
     int scoreennemi = 0;
@@ -35,10 +35,10 @@ public class HelloController implements Initializable {
     ImageView CardonScreen,anim,backgroundopening,backgrounddraft,backgroundsimu,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11,loading,packfiesta,silverpack;
 
     @FXML
-    Button changebutton,nextbutton,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad,buttonsimulation;
+    Button buttontir,changebutton,nextbutton,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad,buttonsimulation;
 
     @FXML
-    ImageView currentpos,goldpack;
+    ImageView currentpos,goldpack,tir,flecheG,flecheM,flecheD,gardien;
 
     ArrayList<Card> listeEpic = new ArrayList<>();
 
@@ -75,6 +75,8 @@ public class HelloController implements Initializable {
 
     int lastindex = 999;
 
+    boolean tireur = true;
+
     @FXML
     protected void simulationclicked() {
         Random random = new Random();
@@ -102,6 +104,53 @@ public class HelloController implements Initializable {
        else {
            displaymatch.setText("Match terminé ! \n Défaite t'es nul la honte ");
        }
+    }
+
+    @FXML
+    protected void ontireclicked() {
+        tir.setVisible(true);
+        buttontir.setVisible(false);
+        flecheD.setVisible(true);
+        flecheM.setVisible(true);
+        flecheG.setVisible(true);
+        scoretir.setVisible(true);
+        scorecomment.setVisible(true);
+    }
+
+    public void chancetir(int a ) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(3);
+        int randomPlayer = random.nextInt(board.length);
+        String s="";
+        if (tireur) {
+            if (randomNumber == a) {
+                System.out.println("tire de " + board[randomPlayer].getNom() + " arreté par le gardien ahahah la honte !! ");
+                s+="tire de " + board[randomPlayer].getNom() + " arreté par le gardien ahahah la honte !! ";
+            } else {
+                System.out.println("but de " + board[randomPlayer].getNom());
+                s+="but de " + board[randomPlayer].getNom();
+                scoremoi++;
+            }
+            tireur = false;
+            tir.setVisible(false);
+            gardien.setVisible(true);
+        }
+        else {
+            if (randomNumber == a) {
+                System.out.println("tire arreté par " + board[0].getNom() + " la classe !! ");
+                s+="tire arreté par " + board[0].getNom() + " la classe !! ";
+            } else {
+                System.out.println("but de l'équipe adversaire !! bien joué , vous êtes nul");
+                s+="but de l'équipe adversaire !! bien joué , vous êtes nul";
+                scoreennemi++;
+            }
+            tireur = true;
+            tir.setVisible(true);
+            gardien.setVisible(false);
+        }
+        scoretir.setText(scoremoi+" - "+scoreennemi);
+        scorecomment.setText(s);
+
     }
 
     @FXML
@@ -195,8 +244,24 @@ public class HelloController implements Initializable {
         }
         if (oui) {
             buttonsimulation.setVisible(true);
+            buttontir.setVisible(true);
         }
         return oui;
+    }
+
+    @FXML
+    protected void ontirgauche() {
+        chancetir(1);
+    }
+
+    @FXML
+    protected void ontirMid() {
+        chancetir(2);
+    }
+
+    @FXML
+    protected void ontirDroit() {
+        chancetir(3);
     }
 
     @FXML
@@ -556,7 +621,6 @@ public class HelloController implements Initializable {
             if (board[i] != null) {
                 if (board[i].getNom() == c.getNom()) {
                     board[i] = null;
-                    System.out.println("tete enlevée");
                 }
             }
         }
