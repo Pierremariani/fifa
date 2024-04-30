@@ -32,10 +32,10 @@ public class HelloController implements Initializable {
     ArrayList<Card> listeCard = new ArrayList<>();
 
     @FXML
-    ImageView CardonScreen,anim,backgroundopening,backgrounddraft,backgroundsimu,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11,loading,packfiesta;
+    ImageView CardonScreen,anim,backgroundopening,backgrounddraft,backgroundsimu,gkimage,dd,dcd,dcg,dg,mg,mc,md,ag,bu,ad,esteanimation,chat,show1,show2,show3,show4,show5,show6,show7,show8,show9,show10,show11,loading,packfiesta,silverpack;
 
     @FXML
-    Button nextbutton,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad,buttonsimulation;
+    Button changebutton,nextbutton,buttongk,buttondd,buttondcg,buttondcd,buttondg,buttonmg,buttonmc,buttonmd,buttonag,buttonbu,buttonad,buttonsimulation;
 
     @FXML
     ImageView currentpos,goldpack;
@@ -180,6 +180,12 @@ public class HelloController implements Initializable {
         tirage();
     }
 
+    @FXML
+    protected void onsilverpackclicked() {
+        hideoppening();
+        tirage();
+    }
+
     public boolean StartGame() {
         boolean oui = true;
         for (int i = 0 ; i < board.length; i++) {
@@ -206,6 +212,16 @@ public class HelloController implements Initializable {
         packfiesta.setVisible(false);
         CardonScreen.setVisible(true);
         nextbutton.setVisible(true);
+        silverpack.setVisible(false);
+        changebutton.setVisible(true);
+    }
+    @FXML
+
+    protected void onchangeclicked() {
+        System.out.println("change");
+        PlayerCard.remove(PlayerCard.size()-1);
+        nb--;
+        tirage();
     }
 
     @FXML
@@ -691,6 +707,88 @@ public class HelloController implements Initializable {
         numpos = 4;
     }
 
+    @FXML
+    protected void refreshAffichage() {
+        // On verifie chaque case du terrain , si elle n'est pas null on lui attribue l'image du joueur correspondant
+        if (board[0] != null) {
+            changeImageViewImg(gkimage,board[0].getUrl());
+            gkimage.setVisible(true);
+        }
+        else {
+            gkimage.setVisible(false);
+        }
+        if (board[1] != null) {
+            changeImageViewImg(dg, board[1].getUrl());
+            dg.setVisible(true);
+        }
+        else {
+            dg.setVisible(false);
+        }
+        if (board[2] != null) {
+            changeImageViewImg(dcg, board[2].getUrl());
+            dcg.setVisible(true);
+        }
+        else {
+            dcg.setVisible(false);
+        }
+        if (board[3] != null) {
+            changeImageViewImg(dcd, board[3].getUrl());
+            dcd.setVisible(true);
+        }
+        else {
+            dcd.setVisible(false);
+        }
+        if (board[4] != null) {
+            changeImageViewImg(dd, board[4].getUrl());
+            dd.setVisible(true);
+        }
+        else {
+            dd.setVisible(false);
+        }
+        if (board[5] != null) {
+            changeImageViewImg(mg, board[5].getUrl());
+            mg.setVisible(true);
+        }
+        else {
+            mg.setVisible(false);
+        }
+        if (board[6] != null) {
+            changeImageViewImg(mc, board[6].getUrl());
+            mc.setVisible(true);
+        }
+        else {
+            mc.setVisible(false);
+        }
+        if (board[7] != null) {
+            changeImageViewImg(md, board[7].getUrl());
+            md.setVisible(true);
+        }
+        else {
+            md.setVisible(false);
+        }
+        if (board[8] != null) {
+            changeImageViewImg(ag, board[8].getUrl());
+            ag.setVisible(true);
+        }
+        else {
+            ag.setVisible(false);
+        }
+        if (board[9] != null) {
+            changeImageViewImg(bu, board[9].getUrl());
+            bu.setVisible(true);
+        }
+        else {
+            bu.setVisible(false);
+        }
+        if (board[10] != null) {
+            changeImageViewImg(ad, board[10].getUrl());
+            ad.setVisible(true);
+        }
+        else {
+            ad.setVisible(false);
+        }
+    }
+
     public int getCollectif() {
         int total = 0;
         for (int i = 0 ; i < board.length;i++) {
@@ -785,6 +883,7 @@ public class HelloController implements Initializable {
         buttonmg.setVisible(true);
         collectif.setVisible(true);
         note.setVisible(true);
+        changebutton.setVisible(false);
         showCard();
     }
 

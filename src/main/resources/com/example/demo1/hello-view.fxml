@@ -84,13 +84,13 @@
             </image>
          </ImageView>
          <Label fx:id="note" layoutX="-12.0" layoutY="-3.0" prefHeight="50.0" prefWidth="120.0" textFill="WHITE" visible="false" />
-         <ImageView fx:id="packfiesta" fitHeight="360.0" fitWidth="250.0" layoutX="666.0" layoutY="147.0" onMousePressed="#packfiestaclicked" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="packfiesta" fitHeight="360.0" fitWidth="250.0" layoutX="387.0" layoutY="137.0" onMousePressed="#packfiestaclicked" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../images/ultimate-pack-removebg-preview.png" />
             </image>
          </ImageView>
          <Button fx:id="buttonsimulation" layoutX="12.0" layoutY="543.0" mnemonicParsing="false" onMouseClicked="#simulationclicked" text="start" visible="false" />
-         <ImageView fx:id="goldpack" fitHeight="353.0" fitWidth="248.0" layoutX="215.0" layoutY="151.0" onMouseClicked="#ongoldpackclicked" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="goldpack" fitHeight="353.0" fitWidth="248.0" layoutX="48.0" layoutY="136.0" onMouseClicked="#ongoldpackclicked" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../images/goldpack.png" />
             </image>
@@ -133,6 +133,12 @@
                <Glow />
             </effect>
          </Label>
+         <ImageView fx:id="silverpack" fitHeight="353.0" fitWidth="268.0" layoutX="722.0" layoutY="138.0" onMouseClicked="#onsilverpackclicked" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../images/silverpack.png" />
+            </image>
+         </ImageView>
+         <Button fx:id="changebutton" layoutX="475.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#onchangeclicked" text="change" visible="false" />
       </children>
    </Pane>
 </VBox>
